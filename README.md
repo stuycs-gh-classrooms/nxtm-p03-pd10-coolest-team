@@ -3,7 +3,7 @@
 ### NeXTCS
 ### Period: 10
 ## Thinker0: Blir Nura
-## Thinker1: Aiden Jaiamangal
+## Thinker1: Aiden Jaimangal
 ## Thinker2: Tyler the Absent
 ---
 

@@ -39,16 +39,16 @@ YOUR ANSWER HERE
   - Mass and velocity
 
 - Does this force require any new constants, if so what are they and what values will you try initially?
-  - YOUR ANSWER HERE
+  - maybe
 
 - Does this force require any new information to be added to the `Orb` class? If so, what is it and what data type will you use?
-  - YOUR ANSWER HERE
+  - probably
 
 - Does this force interact with other `Orbs`, or is it applied based on the environment?
   - This force only applies when the Orbs collide with each other
 
 - In order to calculate this force, do you need to perform extra intermediary calculations? If so, what?
-  - YOUR ANSWER HERE
+  - possibly
 
 --- 
 

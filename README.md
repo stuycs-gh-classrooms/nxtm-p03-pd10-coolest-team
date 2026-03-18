@@ -27,7 +27,7 @@ All projects will require the following:
 ## Phase 0: Force Selection, Analysis & Plan
 ---------- 
 
-#### Custom Force: NAME OF YOUR FORCE
+#### Custom Force: Elastic Collision
 
 ### Custom Force Formula
 What is the formula for your force? Including descriptions/definitions for the symbols. (You may include a picture of the formula if it is not easily typed.)
@@ -36,7 +36,7 @@ YOUR ANSWER HERE
 
 ### Custom Force Breakdown
 - What information that is already present in the `Orb` or `OrbNode` classes does this force use?
-  - YOUR ANSWER HERE
+  - Mass and velocity
 
 - Does this force require any new constants, if so what are they and what values will you try initially?
   - YOUR ANSWER HERE
@@ -45,7 +45,7 @@ YOUR ANSWER HERE
   - YOUR ANSWER HERE
 
 - Does this force interact with other `Orbs`, or is it applied based on the environment?
-  - YOUR ANSWER HERE
+  - This force only applies when the Orbs collide with each other
 
 - In order to calculate this force, do you need to perform extra intermediary calculations? If so, what?
   - YOUR ANSWER HERE

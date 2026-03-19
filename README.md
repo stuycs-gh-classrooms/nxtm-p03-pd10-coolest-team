@@ -55,6 +55,8 @@ YOUR ANSWER HERE
 ### Simulation 1: Gravity
 Describe how you will attempt to simulate orbital motion.
 
+Making a fixed Orb in the center with lots of mass that moving Orbs will orbit around.
+
 --- 
 
 ### Simulation 2: Spring
@@ -67,19 +69,19 @@ YOUR ANSWER HERE
 ### Simulation 3: Drag
 Describe what your drag simulation will look like. Explain how it will be setup, and how it should behave while running.
 
-YOUR ANSWER HERE
+Orbs move left or right and slow down due to drag.
 
 --- 
 
 ### Simulation 4: Custom force
 Describe what your Custom force simulation will look like. Explain how it will be setup, and how it should behave while running.
 
-YOUR ANSWER HERE
+Numerous orbs with random initial velocity colliding into each other.
 
 --- 
 
 ### Simulation 5: Combination
 Describe what your combination simulation will look like. Explain how it will be setup, and how it should behave while running.
 
-YOUR ANSWER HERE
+Everything above, trust us.
 

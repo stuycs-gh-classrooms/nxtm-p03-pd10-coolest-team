@@ -1,20 +1,13 @@
 class Orb
 {
 
-  //instance variables
   PVector center;
   PVector velocity;
   PVector acceleration;
   float bsize;
   float mass;
   color c;
-
-
-  /**
-   YOUR CONCISE+CLEAR DESCRIPTION OF WHAT THIS CONSTRUCTOR DOES
-   and/or
-   WHY IT EXISTS
-   */
+  
   Orb()
   {
     bsize = random(10, MAX_SIZE);

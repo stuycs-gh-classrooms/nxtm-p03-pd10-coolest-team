@@ -12,9 +12,12 @@ float  SPRING_K = 0.005;
 int MOVING = 0;
 int BOUNCE = 1;
 int GRAVITY = 2;
-int DRAGF = 3;
-boolean[] toggles = new boolean[4];
-String[] modes = {"Moving", "Bounce", "Gravity", "Drag"};
+int SPRING = 3;
+int DRAGF = 4; //<>//
+int COLLIDE = 5;
+int COMBINATION = 6;
+boolean[] toggles = new boolean[7];
+String[] modes = {"Moving", "Bounce", "Gravity", "Spring", "Drag", "Collide", "Combination"};
 
 FixedOrb earth;
 Orb[] orbs;
@@ -24,9 +27,6 @@ int orbCount;
 void setup()
 {
   size(600, 600);
-
-  //Part 0: Write makeOrbs below
-  makeOrbs(true);
   //Part 3: create earth to simulate gravity
   earth = null;
 }//setup
@@ -36,30 +36,9 @@ void draw()
 {
   background(255);
   displayMode();
-
-  //draw the orbs and springs
   for (int o=0; o < orbCount; o++) {
     orbs[o].display();
-
-    //Part 1: write drawSpring below
-    //Use drawspring correctly to draw springs
-    if (o+1 < orbCount) {
-      drawSpring(orbs[o], orbs[o+1]);
-    }
-  }//draw orbs & springs
-
-  if (toggles[MOVING]) {
-    //Part 2: write applySprings below
-    applySprings();
-
-    //part 3: apply other forces if toggled on
-    for (int o=0; o < orbCount; o++) {
-    }//gravity, drag
-
-    for (int o=0; o < orbCount; o++) {
-      orbs[o].move(toggles[BOUNCE]);
-    }
-  }//moving
+  }
 }//draw
 
 
@@ -78,25 +57,31 @@ void draw()
  
  Each orb will be "connected" to its neighbors in the array.
  */
-void makeOrbs(boolean ordered)
+void makeOrbs(int mode)
 {
   orbCount = NUM_ORBS;
   orbs = new Orb[orbCount];
   for (int i = 0; i < orbCount; i++) {
-    if (ordered == false) {
+    if (mode == 0) {
       if (i == 0) {
         orbs[i] = new FixedOrb();
       } else {
         orbs[i] = new Orb();
       }
-    } else {
+    }
+    else if (mode == 1){ //alter for gravity
       float x = random(0, width/2);
       if (i == 0) {
-        orbs[i] = new FixedOrb(x, height/2, random(10, MAX_SIZE), random(10, 100));
+        orbs[i] = new FixedOrb(width/2, height/2, random(10, MAX_SIZE), random(10, 100));
       } else {
         float s = random(10, 100);
         orbs[i] = new Orb(x+s/2+i*SPRING_LENGTH, height/2, random(10, MAX_SIZE), s);
       }
+    }
+    else if (mode == 2){ //alter for drag
+      float x = random(0, width/2);
+        float s = random(10, 100);
+        orbs[i] = new Orb(x+s/2+i*SPRING_LENGTH, height/2, random(10, MAX_SIZE), s);
     }
   }
 }//makeOrbs
@@ -184,20 +169,27 @@ void keyPressed()
   if (key == ' ') {
     toggles[MOVING]  = !toggles[MOVING];
   }
-  if (key == 'g') {
-    toggles[GRAVITY] = !toggles[GRAVITY];
-  }
-  if (key == 'b') {
+    if (key == 'b') {
     toggles[BOUNCE]  = !toggles[BOUNCE];
   }
-  if (key == 'd') {
-    toggles[DRAGF]   = !toggles[DRAGF];
-  }
   if (key == '1') {
-    makeOrbs(true);
+    toggles[GRAVITY] = !toggles[GRAVITY];
+    makeOrbs(1);
   }
   if (key == '2') {
-    makeOrbs(false);
+    toggles[SPRING]   = !toggles[SPRING];
+    makeOrbs(0);
+  }
+  if (key == '3') {
+    toggles[DRAGF]   = !toggles[DRAGF];
+    makeOrbs(2);
+  }
+  if (key == '4') {
+    toggles[COLLIDE]   = !toggles[COLLIDE];
+    makeOrbs(1);
+  }
+  if (key == '5') {
+    // Do later toggles[COMBINATION]   = !toggles[DRAGF];
   }
 
   if (key == '-') {

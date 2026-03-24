@@ -46,11 +46,7 @@ void makeOrbs(int mode)
   orbs = new Orb[orbCount];
   for (int i = 0; i < orbCount; i++) {
     if (mode == 0) {
-      if (i == 0) {
-        orbs[i] = new FixedOrb();
-      } else {
-        orbs[i] = new Orb();
-      }
+      orbs[i] = new Orb();
     } else if (mode == 1) {
       if (i == 0) {
         orbs[i] = new FixedOrb(width/2, height/2, random(10, MAX_SIZE), random(10, 100));
@@ -126,7 +122,7 @@ void keyPressed()
   }
   if (key == '4') {
     toggles[COLLIDE]   = !toggles[COLLIDE];
-    makeOrbs(1);
+    makeOrbs(0);
   }
   if (key == '5') {
     // Do later toggles[COMBINATION]   = !toggles[DRAGF];

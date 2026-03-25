@@ -38,6 +38,60 @@ void draw()
   for (int o=0; o < orbCount; o++) {
     orbs[o].display();
   }
+
+  if (noModesActive()) {
+    orbs = null;
+    orbCount = 0;
+  }
+
+  if (toggles[3]) {
+    for (int o = 0; o < orbCount; o++) {
+      if (o + 1 < orbCount) {
+        drawSpring(orbs[o], orbs[o + 1]);
+      }
+    }
+  }
+
+  if (toggles[MOVING] && orbs != null && orbCount > 0) {
+
+    for (int i = 0; i < orbCount; i++) {
+      orbs[i].move(toggles[BOUNCE]);
+    }
+
+    if (toggles[GRAVITY] && orbCount > 1) {
+      for (int i = 0; i < orbCount; i++) {
+        orbs[i].applyForce(orbs[i].getGravity(orbs[0], G_CONSTANT));
+      }
+    }
+    if (toggles[SPRING] && orbCount > 1) {
+      for (int i = 0; i < orbCount; i++) {
+        orbs[i].applyForce(orbs[i].getSpring(orbs[0], SPRING_LENGTH, SPRING_K));
+      }
+    }
+    if (toggles[DRAGF]) {
+      for (int i = 0; i < orbCount; i++) {
+        if (toggles[COMBINATION] == false) {
+          orbs[i].velocity.add(new PVector(1, 0));
+        }
+        orbs[i].applyForce(orbs[i].getDragForce(D_COEF));
+      }
+    }
+    if (toggles[COLLIDE] && orbCount > 1) {
+
+      for (int i = 0; i < orbCount; i++) {
+        for (int j = i + 1; j < orbCount; j++) {
+
+          PVector force = orbs[i].getCollisionForce(orbs[j], toggles[COMBINATION] ? 50 : 1);
+
+          orbs[i].applyForce(force);
+
+          PVector opposite = force.copy();
+          opposite.mult(-1);
+          orbs[j].applyForce(opposite);
+        }
+      }
+    }
+  }
 }
 
 void makeOrbs(int mode)
@@ -45,6 +99,7 @@ void makeOrbs(int mode)
   orbCount = NUM_ORBS;
   orbs = new Orb[orbCount];
   for (int i = 0; i < orbCount; i++) {
+
     if (mode == 0) {
       orbs[i] = new Orb();
     } else if (mode == 1) {
@@ -59,6 +114,10 @@ void makeOrbs(int mode)
     } else if (mode == 2) {
       float s = random(10, 100);
       orbs[i] = new Orb(50, 75+60*i, random(10, MAX_SIZE), s);
+    }
+
+    if (toggles[COLLIDE] && toggles[COMBINATION] == false) {
+      orbs[i].velocity = new PVector(random(-1, 1), random(-1, 1));
     }
   }
 }
@@ -95,9 +154,23 @@ void addOrb()
   arrayCopy(orbs, copy);
 
   copy[orbCount] = new Orb();
-
   orbs = copy;
   orbCount++;
+}
+
+void mutualExclusive(int mode) {
+  toggles[COMBINATION] = false;
+
+  for (int i = 2; i < 6; i++) {
+    toggles[i] = (i == mode);
+  }
+}
+
+boolean noModesActive() {
+  for (int i = 2; i < toggles.length; i++) {
+    if (toggles[i]) return false;
+  }
+  return true;
 }
 
 void keyPressed()
@@ -109,27 +182,32 @@ void keyPressed()
     toggles[BOUNCE]  = !toggles[BOUNCE];
   }
   if (key == '1') {
-    toggles[GRAVITY] = !toggles[GRAVITY];
+    mutualExclusive(GRAVITY);
     makeOrbs(1);
   }
   if (key == '2') {
-    toggles[SPRING]   = !toggles[SPRING];
+    mutualExclusive(SPRING);
     makeOrbs(0);
   }
   if (key == '3') {
-    toggles[DRAGF]   = !toggles[DRAGF];
+    mutualExclusive(DRAGF);
     makeOrbs(2);
   }
   if (key == '4') {
-    toggles[COLLIDE]   = !toggles[COLLIDE];
+    mutualExclusive(COLLIDE);
     makeOrbs(0);
   }
   if (key == '5') {
-    // Do later toggles[COMBINATION]   = !toggles[DRAGF];
-  }
+    toggles[COMBINATION] = !toggles[COMBINATION];
+    makeOrbs(1);
 
+    for (int i = 2; i < 6; i++) {
+      toggles[i] = toggles[COMBINATION];
+    }
+  }
   if (key == '-') {
   }
+
   if (key == '=' || key == '+') {
     addOrb();
   }

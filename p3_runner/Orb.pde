@@ -7,7 +7,7 @@ class Orb
   float bsize;
   float mass;
   color c;
-  
+
   Orb()
   {
     bsize = random(10, MAX_SIZE);
@@ -79,6 +79,25 @@ class Orb
     return direction;
   }
 
+  PVector getCollisionForce(Orb other, float k) {
+    float dist = center.dist(other.center);
+    float minDist = (this.bsize/2 + other.bsize/2);
+
+    if (dist >= minDist || dist == 0) {
+      return new PVector(0, 0);
+    }
+
+    PVector dir = PVector.sub(other.center, this.center);
+    dir.normalize();
+
+    float overlap = minDist - dist;
+
+    float forceMag = k * overlap;
+
+    dir.mult(-forceMag);
+    return dir;
+  }
+
   boolean yBounce()
   {
     if (center.y > height - bsize/2) {
@@ -86,8 +105,7 @@ class Orb
       center.y = height - bsize/2;
 
       return true;
-    }
-    else if (center.y < bsize/2) {
+    } else if (center.y < bsize/2) {
       velocity.y*= -1;
       center.y = bsize/2;
       return true;

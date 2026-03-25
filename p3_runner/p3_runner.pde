@@ -159,10 +159,12 @@ void addOrb()
 }
 
 void mutualExclusive(int mode) {
-  toggles[COMBINATION] = false;
-
-  for (int i = 2; i < 6; i++) {
-    toggles[i] = (i == mode);
+  for (int i = 2; i < 7; i++) {
+    if (i == mode && toggles[i] == false) {
+      toggles[i] = true;
+    } else {
+      toggles[i] = false;
+    }
   }
 }
 
